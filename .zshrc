@@ -157,7 +157,7 @@ bindkey '^R' peco-history-selection
 # cd after ls
 chpwd() {
     if [[ $(pwd) != $HOME ]]; then;
-        ls -la
+        lsd -la
     fi
 }
 # ---------------------------------------
@@ -170,3 +170,5 @@ eval "$(anyenv init -)"
 # ---------------------------------------
 alias gcd='cd $(ghq root)/$(ghq list | peco)'
 alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
+alias ls='lsd'
+alias tree='lsd --tree'
