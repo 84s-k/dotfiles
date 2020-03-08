@@ -5,6 +5,7 @@
 # https://qiita.com/iwaseasahi/items/a2b00b65ebd06785b443
 # https://qiita.com/2357gi/items/0ab1297357dedb90bbb1
 # https://heartbeats.jp/hbblog/2017/09/shellzshprompt2.html
+# https://qiita.com/ytanto/items/f0e9ec3c28e0b556e328
 
 # ---------------------------------------
 # tmux関連の設定
@@ -172,3 +173,5 @@ alias gcd='cd $(ghq root)/$(ghq list | peco)'
 alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 alias ls='lsd'
 alias tree='lsd --tree'
+alias dps='docker ps --format "{{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Command}}\t{{.RunningFor}}"'
+alias de='docker exec -it `dps | peco | cut -f 1` /bin/bash'
