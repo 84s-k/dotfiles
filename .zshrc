@@ -6,6 +6,7 @@
 # https://qiita.com/2357gi/items/0ab1297357dedb90bbb1
 # https://heartbeats.jp/hbblog/2017/09/shellzshprompt2.html
 # https://qiita.com/ytanto/items/f0e9ec3c28e0b556e328
+# https://blog-hello-world.web.app/posts/2019-09-26-mac-terminal/
 
 # ---------------------------------------
 # tmux関連の設定
@@ -161,6 +162,27 @@ chpwd() {
         lsd -la
     fi
 }
+
+# cdr
+if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
+    autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+    add-zsh-hook chpwd chpwd_recent_dirs
+    zstyle ':completion:*' recent-dirs-insert both
+    zstyle ':chpwd:*' recent-dirs-default true
+    zstyle ':chpwd:*' recent-dirs-max 1000
+    zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/chpwd-recent-dirs"
+fi
+
+function peco-cdr () {
+    local selected_dir="$(cdr -l | sed -E 's/^[0-9]+ +//' | peco --prompt="cdr >" --query "$LBUFFER")"
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd ${selected_dir}"
+        zle accept-line
+    fi
+}
+zle -N peco-cdr
+bindkey '^E' peco-cdr
+
 # ---------------------------------------
 # パスの設定
 # ---------------------------------------
